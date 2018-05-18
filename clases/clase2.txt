@@ -1,0 +1,50 @@
+def fact(n: Int): Int = {
+  if(n <= 1)
+  	1
+  else
+  	n * fact(n - 1)
+}
+
+fact(3)
+
+def ifelse(n:Int, whenTrue:Any, whenFalse:Any, whenResultado:Any): Any = {
+  if(fact(n)>125) whenTrue else if(fact(n)==125) whenResultado else whenFalse
+}
+
+//ifelse(4, "Sz", "No", "Resultado")
+
+def factorial(n:Int, whenTrue: => Any, whenFalse: => Any): Any = {
+  if(n>=0) whenTrue else whenFalse
+}
+
+def printer(factorial:Int) ={
+  s"El factorial es $factorial"
+}
+val x=((fact _) andThen (printer _))(3)
+x
+val y = ((printer _) compose (fact _))(3)
+y
+
+def suma(a:Int, b:Int): Int = a + b
+val z:Int => Int = suma(1, _)
+z.apply(2)
+
+def hola[A](a:A)={
+  s"Imprimiendo $a ..."
+}
+type Alias = Int;
+hola[Alias](1)
+
+def rfactorial[A,B](x:A, msg:String,f:A => B): String ={
+  s"El $msg es ${f(x)}"
+}
+rfactorial(5,"resultado",fact)
+
+def division(num1:Double, num2:Double): Any = if(num2!=0) num1/num2 else "Undefined"
+division(4,0)
+
+def div: Double => Double => Double = x => y => y match{
+  case y if y!=0 => x/y
+}
+
+div(1D)(1D)

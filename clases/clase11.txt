@@ -1,0 +1,20 @@
+import scala.language.higherKinds
+
+trait Functor[F[_]] {
+  def map[A, B](a: F[A])(f: A => B): F[B]
+}
+
+object Functor {
+  def apply[F[_]: Functor]: Functor[F] =
+    implicitly[Functor[F]]
+  
+  implicit def ListFunctor: Functor[List] = new Functor[List] {
+    def map[A, B](a: List[A])(f: A => B): List[B] = a map f
+  }
+  
+}
+
+val x = List(1,2,3,4)
+val f: Int => Double = _ * 2.5
+
+Functor[List].map(x)(f)

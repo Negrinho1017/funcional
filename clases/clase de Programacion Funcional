@@ -1,0 +1,110 @@
+import scala.annotation.tailrec
+import scala.util.Try
+import scala.util._
+
+/*case class A(a:Int, b:Int)
+object ensayandoCase extends App{
+  val aa = A(2,3)
+  aa match{
+    case A(a,b) => A(a+1,b+1)
+  }
+}*/
+
+
+/*
+def sumarLista (l:List[Int]):List[Int]={
+  @tailrec
+  def add(elem:List[Int],acc:List[Int]):List[Int]={
+     elem match {
+      case h::Nil => acc :+ (h+1)
+      case h::t => add(t,acc :+ (h+1))
+      case Nil => acc
+    }
+  }
+  add(l,Nil)
+}
+
+
+sumarLista(1::3::5::18::Nil)*/
+
+/*def promedioLista (l:List[Int]):Double={
+  @tailrec
+  def add(elem:List[Int],sumaDeValores:Double,size:Double):Double={
+    elem match {
+      case h::Nil => (h+sumaDeValores)/size
+      case h::t => add(t,h+sumaDeValores,size+1)
+      case Nil => (sumaDeValores/size)
+    }
+  }
+  add(l,0,1)
+}
+promedioLista(1::8::Nil)*/
+
+//constructor con el que puedo crear un mensaje o si no meterle un None
+/*case class Mensaje(texto:String,sha:Int)
+object Mensaje{
+  def apply (texto:String, sha:Int):Option[Mensaje] = {
+    if(validarSha(sha)) Option(new Mensaje(texto,sha))
+    else None
+  }
+  private def validarSha(i: Int):Boolean = ???
+}*/
+
+//otra forma de hacer el constructor
+/*case class Mensaje(texto:String,sha:Int)
+object Mensaje{
+  def apply (texto:String, sha:Int):Try[Mensaje] = {
+    if(validarSha(sha)) Success(new Mensaje(texto,sha))
+    else Failure(throw new Exception("Bad sha"))
+  }
+  private def validarSha(i: Int):Boolean = ???
+}*/
+
+// tercera forma de hacer el constructor(smart Constructor)
+// solo va a construir esta entidades si y solo si el objeto tiene sentido
+
+/*trait MensajeError{val error : String}
+trait Estado
+trait Cifrado extends Estado
+trait Plano extends Estado
+case class Mensaje(texto:String,sha:Int)
+object Mensaje{
+  def apply (texto:String, sha:Int):Either[MensajeError, Mensaje[Plano]] = {
+    if(validarSha(sha)) Right(new Mensaje[Plano](texto,sha))
+    else Left(new MensajeError {
+      val error = "Revise como creo el mensaje caballo"
+    })
+  }
+  private def validarSha(i: Int):Boolean = true
+}
+def cifrar (m: Mensaje[Plano]): Mensaje[Cifrado] = {
+  new Mensaje[Cifrado](m.texto,m.sha)
+}
+Mensaje("Hola",2)*/
+
+
+/*
+val s: Option[Int] = Option(2)
+val d: Option[Int] = Option(3)
+
+val r = s.flatMap(x => d.map(z => x+z)) //hace lo mismo que el for
+
+for {
+  ss <- s
+  dd <- d
+  a = ss+dd
+}yield a*/
+
+
+
+/*
+Try[Int](throw new Exception("Error"))
+Success(1)
+Failure(new Exception)*/
+/*val ll : Either[String, Int] = Left("Error")
+for {
+  l0 <- Left("Izquierda del for")
+  r <- Right(1)
+  r1 <- Right(2)
+  l <- ll
+} yield r+r1+l*/

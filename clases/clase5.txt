@@ -1,0 +1,68 @@
+﻿def suma(num1: Int)(implicit num2: Int): Int = num1+num2
+def suma(frase1: String)(frase2: String): String = frase1+frase2
+case class Persona(nombre: String, edad: Int)
+def sumaLoQueCaiga[T](a: T, b:T): T = ???
+
+
+suma(1)(2)
+suma("hola")("Que tal")
+val s = ("Hola", _:String)
+s("que tal")
+
+def sum(a: Int)(implicit b: Int):Int = a+b
+implicit val persona: Int = Persona("Camilo",22)
+implicit val persona2: Persona = Persona("Carlitos",12)
+implicit def sumaEdad: Persona=>Int = _.edad
+//implicit val tres: Int = 3
+//implicit def toS: Int => String = _.toString
+//implicit def toI: String => Int = java.lang.Integer.valueOf(_)
+
+sum(1)
+//suma("Usted sacó")(2)
+suma(2)
+
+//def sum[T]: T => T => T = ??? 
+
+def esMasLargo(a: String, b: String): Boolean = if(a.length>b.length) true else false
+
+esMasLargo("Hola","Cha")
+
+implicit class StringOps(s:String){
+  def esMayor(s2:String): Boolean = s.length > s2.length
+}
+
+"Hola" esMayor "Chao bb"
+
+trait Sumable[T]{
+  def sumar(a: T, b: T): T
+  def zero: T
+}
+
+object SumableOps2{
+  implicit object IntSumable extends Sumable[Int]{
+    def sumar(a:Int, b:Int): Int = a+b
+    def zero: Int = 0
+  }
+  implicit object StringSumable extends Sumable[String]{
+    def sumar(a:String, b:String): String = a+b
+    def zero: String = ""
+  }
+  implicit object PersonSumable extends Sumable[Person]{
+    def sumar(a:Person, b:Person): Person = Person(a.patrimonio+b.patrimonio)
+    def zero: Person = Person(0)
+  } 
+}
+
+import SumableOps2._
+def sum[T](a:T, b:T)(implicit s:Sumable[T]): T = s.sumar(a,b)
+sum(1,2)
+sum("1","2")
+
+case class Person(patrimonio: Double)
+val persona3: Person = Person(180000)
+val persona4: Person = Person(120000)
+
+sum(persona3,persona4)
+
+val inputList: List[Int] = List(1, 3, 5)
+inputList.fold(10) { (acc, i) => acc + i }

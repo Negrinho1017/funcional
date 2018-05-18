@@ -1,0 +1,76 @@
+import scala.concurrent._
+import scala.concurrent.duration._
+import scala.concurrent.ExecutionContext.Implicits.global
+
+val event = Future[Int](1).map(_+1)
+val event2 = Future[Int]{
+  Thread.sleep(scala.util.Random.nextInt(100))
+  //throw new Exception("error")
+  1
+} recover {
+  case ex => "chao papa ${ex.message}"
+}
+val event3 = Future[Int]{
+  Thread.sleep(scala.util.Random.nextInt(100))
+  //throw new Exception("error")
+  1
+} map{_+1} recover {
+  case ex => "chao papa ${ex.message}"
+}
+println("Principal")
+
+val result = Await.result(event, 2.seconds)
+//val result2 = Await.result(event2, 0.seconds)
+println("Await")
+println(result)
+Thread.sleep(scala.util.Random.nextInt(200))
+println(event)
+println(event2)
+println(event3)
+
+
+val eventSum = for {
+  u <- Future[Int]{
+  println("uno")
+  1
+  }
+  d <- Future[Int]{
+  println("dos")
+  2
+  }
+  t <- Future[Int]{
+  println("tres")
+  3
+  }
+} yield {
+  u+d+t
+}
+Thread.sleep(scala.util.Random.nextInt(200))
+eventSum
+println(eventSum)
+
+case class Usuario(nombre:String,email:String)
+
+def insertarNombre(nombre: String): Future[String] = {
+  val nombreFuture = Future[String]{
+  	nombre
+	}
+  nombreFuture
+}
+
+def insertarEmail(email: String): Future[String] = {
+  val emailFuture = Future[String]{
+  	email
+	}
+	emailFuture
+}
+
+val eventUsuario = for {
+  n <- insertarNombre("Pablo")
+  em <- insertarEmail("1")
+} yield {
+  Usuario(n,em)
+}
+Thread.sleep(scala.util.Random.nextInt(200))
+println(eventUsuario)
+
