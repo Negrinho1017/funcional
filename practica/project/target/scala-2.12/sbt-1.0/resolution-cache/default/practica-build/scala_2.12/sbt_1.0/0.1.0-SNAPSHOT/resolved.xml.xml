@@ -4,7 +4,7 @@
 		module="practica-build"
 		revision="0.1.0-SNAPSHOT"
 		status="integration"
-		publication="20180515153745"
+		publication="20180518145552"
 		e:sbtVersion="1.0" e:scalaVersion="2.12"
 	>
 		<description>
