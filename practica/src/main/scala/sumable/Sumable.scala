@@ -1,4 +1,4 @@
-package example
+package sumable
 
 trait Sumable[T]{
 def sumar(a: T, b: T): T
